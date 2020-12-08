@@ -46,18 +46,23 @@ def process_clients():
             if move != "q":
                 if go is not None:
                     if go.status == 0:
-                        print("Client in status 0")
-                        print(move)
+                        print("[{}] in status 0. Move: {}".format(
+                            client.addrport(), move))
                         msg = go.go_black_round(move)
                         client.send(msg)
                         if go.status == 1:  # If the move was legal
                             client.send("Press enter to continue\n")
                         else:
                             client.send(go.go_black_round_init())
-                    else:
-                        print("Client in status 1")
+                    elif go.status == 1:
+                        print("[{}] in status 1".format(client.addrport()))
                         client.send(go.go_white_round())
                         client.send(go.go_black_round_init())
+                    elif go.status == 2:
+                        client.send("Game finished!")
+                        # TODO: restart
+                        client.active = False
+
                 else:
                     # Init Go
                     try:

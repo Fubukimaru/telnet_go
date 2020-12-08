@@ -1,5 +1,7 @@
 import subprocess
 
+# GNUGo GTP documentation: https://www.gnu.org/software/gnugo/gnugo_19.html
+
 
 class Go:
 
@@ -46,28 +48,35 @@ class Go:
 
     def go_black_round(self, move_in):
         # Move black
-        move = self.do_move(move_in)
-        msg_back = ""
-        correct = self.correct_move(move)
-        msg_back += self.print_board()
-        if not correct:
-            msg_back += move + "\n"
+        if move_in != "resign":
+            move = self.do_move(move_in)
+            msg_back = ""
+            correct = self.correct_move(move)
+            msg_back += self.print_board()
+            if not correct:
+                msg_back += move + "\n"
+            else:
+                self.status = 1
         else:
-            self.status = 1
+            self.status = 2
         return(msg_back)
 
     def go_white_round(self):
         # Move white
+        move = self.get_move()
         msg_back = ""
         msg_back += "White's turn\n"
-        msg_back += self.print_move(self.get_move())
+        msg_back += self.print_move(move)
         # if output == '' and game.poll() is not None:
         #     break
         msg_back += "Board status:\n"
         msg_back += self.print_board()
         # rc = self.game.poll()
         # return rc
-        self.status = 0
+        if move == "resign":
+            self.status = 2
+        else:
+            self.status = 0
         return(msg_back)
 
     def __init__(self, size=9):
