@@ -58,7 +58,7 @@ def process_clients():
                             client.send(go.go_black_round_init())
                     elif go.status == 1:
                         print("[{}] in status 1".format(cl_name))
-                        cient.send("Thinking...\n")
+                        client.send("Thinking...\n")
                         client.send(go.go_white_round())
                         client.send(go.go_black_round_init())
                     elif go.status == 2:
