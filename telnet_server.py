@@ -40,14 +40,16 @@ def process_clients():
     """
     for client in CLIENT_LIST:
         if client.active and client.cmd_ready:
+            cl_name = client.addrport()
+            print("[{}] Sent a message\n".format(cl_name))
             # If the client sends input echo it to the chat room
-            go = CLIENT_GO[client.addrport()]
+            go = CLIENT_GO[cl_name]
             move = client.get_command()
             if move != "q":
                 if go is not None:
                     if go.status == 0:
                         print("[{}] in status 0. Move: {}".format(
-                            client.addrport(), move))
+                            cl_name, move))
                         msg = go.go_black_round(move)
                         client.send(msg)
                         if go.status == 1:  # If the move was legal
@@ -55,7 +57,8 @@ def process_clients():
                         else:
                             client.send(go.go_black_round_init())
                     elif go.status == 1:
-                        print("[{}] in status 1".format(client.addrport()))
+                        print("[{}] in status 1".format(cl_name))
+                        cient.send("Thinking...\n")
                         client.send(go.go_white_round())
                         client.send(go.go_black_round_init())
                     elif go.status == 2:
