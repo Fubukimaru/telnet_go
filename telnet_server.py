@@ -13,6 +13,7 @@ SERVER_RUN = True
 
 def on_connect(client):
     client.send("HELLO! Welcome to this silly GNUGO middleware :)\n")
+    client.send("If you're using MSX Telnet, press F3 to change enter character to be sent (CR to CR/LF).\n")
     print("Connected: ", client.addrport())
     client.send("Size of the board?\n")
     CLIENT_LIST.append(client)

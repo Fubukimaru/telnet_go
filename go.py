@@ -48,9 +48,9 @@ class Go:
 
     def go_black_round(self, move_in):
         # Move black
+        msg_back = ""
         if move_in != "resign":
             move = self.do_move(move_in)
-            msg_back = ""
             correct = self.correct_move(move)
             msg_back += self.print_board()
             if not correct:
